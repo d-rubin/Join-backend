@@ -1,4 +1,5 @@
-from rest_framework import generics
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -13,10 +14,24 @@ class TaskListCreateView(generics.ListCreateAPIView):
 
 
 class TaskRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    queryset = Task.objects.all()
 
     def get(self, request, *args, **kwargs):
-        queryset = Task.objects.filter(assignee=request.user)
-        serializer_class = TaskSerializer(queryset, many=True)
-        return Response(serializer_class.data)
+        queryset = self.queryset.filter(assignee=request.user)
+        serializer = TaskSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def patch(self, request, *args, **kwargs):
+        task_id = kwargs['pk']
+        task = get_object_or_404(self.queryset, id=task_id)
+        serializer = TaskSerializer(task, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs):
+        task_id = kwargs['pk']
+        task = get_object_or_404(self.queryset, id=task_id)
+        task.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
