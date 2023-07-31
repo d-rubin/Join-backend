@@ -13,8 +13,20 @@ class TaskListCreateView(generics.ListCreateAPIView):
     serializer_class = TaskSerializer
 
 
+class TaskUpdateDestroySerializer:
+    pass
+
+
 class TaskRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
+    
+    def get_serializer_class(self):
+        # Überschreibe die Methode, um die Serializer-Klasse basierend auf der Aktion zu wählen
+        if self.request.method == 'GET':
+            return TaskSerializer
+        elif self.request.method in ['PATCH', 'DELETE']:
+            return TaskUpdateDestroySerializer  # Hier musst du eine entsprechende Serializer-Klasse erstellen
+        return TaskSerializer
 
     def get(self, request, *args, **kwargs):
         queryset = self.queryset.filter(assignee=request.user)
