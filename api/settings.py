@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ["https://join-d-rubin.vercel.app/login", "localhost", '127.0.0.
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    "https://join-d-rubin.vercel.app/login",
+    "https://join-d-rubin.vercel.app",
 ]
 # Application definition
 
