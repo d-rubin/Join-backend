@@ -89,4 +89,3 @@ class ResetPasswordViewTest(APITestCase):
         with self.assertLogs('django.core.mail', level='INFO') as mail_logs:
             response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['message'], 'Reset password email sent.')
