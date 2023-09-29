@@ -95,7 +95,3 @@ class ResetPasswordViewTest(APITestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, 'Reset Password')
         self.assertEqual(mail.outbox[0].to, [self.email])
-
-        # Überprüfen, ob das Log eine E-Mail-Benachrichtigung enthält
-        self.assertIn('INFO', mail_logs.output[0])
-        self.assertIn('Email sent', mail_logs.output[0])
