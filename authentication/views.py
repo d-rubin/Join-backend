@@ -68,6 +68,17 @@ class RegisterView(APIView):
                 "status": 201,
             }
 
+            # Senden der Bestätigungs E-Mail
+            send_mail(
+                'Registration',
+                'You have successfully registered to join, Congratulations',
+                'contact@daniel-rubin.de',
+                [email],
+                fail_silently=False,
+                auth_user='m06624d4',
+                auth_password='3Y9kJcKSxBPgZp9ZT6aY'
+            )
+
             return Response(response_data, status=status.HTTP_201_CREATED)
         else:
             return Response({"status": 401}, status=status.HTTP_401_UNAUTHORIZED)
