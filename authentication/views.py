@@ -73,19 +73,21 @@ class RegisterView(APIView):
             return Response({"status": 401}, status=status.HTTP_401_UNAUTHORIZED)
 
 
-# class ResetPasswordView(APIView):
-#     @staticmethod
-#     def post(request):
-#         email = request.data.get("email")
-#
-#         if User.objects.filter(email=email).exists():
-#             # Senden der Reset-Passwort-E-Mail an den User
-#             send_mail(
-#                 'Reset Password',
-#                 'Please follow the instructions to reset your password.',
-#                 'contact+join@daniel-rubin.de',  # Absender-E-Mail-Adresse
-#                 [email],  # Empfänger-E-Mail-Adresse
-#                 fail_silently=False,
-#             )
-#
-#         return Response(status=status.HTTP_200_OK)
+class ResetPasswordView(APIView):
+    @staticmethod
+    def post(request):
+        email = request.data.get("email")
+
+        if User.objects.filter(email=email).exists():
+            # Senden der Reset-Passwort-E-Mail an den User
+            send_mail(
+                'Reset Password',
+                'Please follow the instructions to reset your password.',
+                'contact@daniel-rubin.de',  # Absender-E-Mail-Adresse
+                [email],  # Empfänger-E-Mail-Adresse
+                fail_silently=False,
+                auth_user='m06624d4',
+                auth_password='3Y9kJcKSxBPgZp9ZT6aY'
+            )
+
+        return Response(status=status.HTTP_200_OK)
