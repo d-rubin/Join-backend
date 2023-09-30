@@ -89,13 +89,3 @@ class RegisterViewTest(APITestCase):
 #         with self.assertLogs('django.core.mail', level='INFO') as mail_logs:
 #             response = self.client.post(url, data, format='json')
 #         self.assertEqual(response.status_code, 200)
-#         self.assertEqual(response.data['message'], 'Reset password email sent.')
-#
-#         # Überprüfen, ob eine E-Mail gesendet wurde
-#         self.assertEqual(len(mail.outbox), 1)
-#         self.assertEqual(mail.outbox[0].subject, 'Reset Password')
-#         self.assertEqual(mail.outbox[0].to, [self.email])
-#
-#         # Überprüfen, ob das Log eine E-Mail-Benachrichtigung enthält
-#         self.assertIn('INFO', mail_logs.output[0])
-#         self.assertIn('Email sent', mail_logs.output[0])
