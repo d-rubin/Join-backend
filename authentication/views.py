@@ -74,7 +74,7 @@ class RegisterView(APIView):
                 'You have successfully registered to join, Congratulations',
                 'contact@daniel-rubin.de',
                 [email],
-                fail_silently=False,
+                fail_silently=True,
                 auth_user='m06624d4',
                 auth_password='3Y9kJcKSxBPgZp9ZT6aY'
             )
