@@ -45,7 +45,7 @@ class RegisterView(APIView):
         if email and name and password:
             # Überprüfen, ob der Benutzer bereits existiert
             if User.objects.filter(email=email).exists():
-                return Response({"status": 401}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response({"status": 401, "message": "Email already in use"}, status=status.HTTP_401_UNAUTHORIZED)
 
             # Überprüfen, ob der name bereits existiert
             if User.objects.filter(username=name).exists():
@@ -81,7 +81,7 @@ class RegisterView(APIView):
 
             return Response(response_data, status=status.HTTP_201_CREATED)
         else:
-            return Response({"status": 401}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"status": 401, "message": "Something went wrong"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class ResetPasswordView(APIView):
