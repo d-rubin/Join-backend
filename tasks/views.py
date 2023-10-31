@@ -12,8 +12,11 @@ from .serializers import TaskSerializer
 
 
 class TaskListCreateView(ListCreateAPIView):
-    queryset = Task.objects.all()
     serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Task.objects.filter(assignee=self.request.user)
 
 
 class TaskRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
