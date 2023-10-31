@@ -27,7 +27,7 @@ class LoginViewTest(APITestCase):
             'password': 'danieldr4.'
         }
         response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 200)
         self.assertIn('token', response.data)
 
 
