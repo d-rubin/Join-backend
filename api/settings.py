@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["https://join.daniel-rubin.de", "https://join-d-rubin.vercel.app", "localhost", '127.0.0.1', "wrench3826.pythonanywhere.com"]
 
 CORS_ALLOWED_ORIGINS = [
+"https://join.daniel-rubin.de",
     'http://localhost:3000',
     "https://join-d-rubin.vercel.app",
 ]
