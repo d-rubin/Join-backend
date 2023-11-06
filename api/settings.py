@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-dsieneuo$k7a#uwwpe))ja_%3t6x7ihfi5y_iv&%x41%8b$&uj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["join.daniel-rubin.de", "https://join-d-rubin.vercel.app", "localhost", '127.0.0.1', "wrench3826.pythonanywhere.com"]
+ALLOWED_HOSTS = ["https://join.daniel-rubin.de", "https://join-d-rubin.vercel.app", "localhost", '127.0.0.1', "wrench3826.pythonanywhere.com"]
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
