@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.utils import timezone
-from django.db.models import Model, CharField, TextField, DateField, IntegerField, ForeignKey, CASCADE, TextChoices
+from django.db.models import Model, CharField, TextField, DateField, IntegerField, ForeignKey, CASCADE, TextChoices, \
+    BooleanField, ManyToManyField
 
 
 class CategoryChoices(TextChoices):
@@ -39,3 +40,12 @@ class Task(Model):
 
     def __str__(self):
         return self.title
+
+
+class Subtask(Model):
+    label = CharField(max_length=50)
+    is_done = BooleanField(default=False)
+    task = ForeignKey(Task, on_delete=CASCADE)
+
+    def __str__(self):
+        return self.label

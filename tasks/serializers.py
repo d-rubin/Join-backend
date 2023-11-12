@@ -1,8 +1,17 @@
-from rest_framework import serializers
-from .models import Task
+from rest_framework.serializers import ModelSerializer
+
+from .models import Task, Subtask
 
 
-class TaskSerializer(serializers.ModelSerializer):
+class SubtaskSerializer(ModelSerializer):
+    class Meta:
+        model = Subtask
+        fields = ['id', 'label', 'is_done']
+
+
+class TaskSerializer(ModelSerializer):
+    subtasks = SubtaskSerializer(many=True, read_only=True)
+
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = ['id', 'title', 'description', 'due_date', 'category', 'priority', 'status', 'assignee', 'subtasks']
