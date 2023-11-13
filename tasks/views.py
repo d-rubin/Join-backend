@@ -11,6 +11,11 @@ class SubtaskCreateAPIView(CreateAPIView):
     serializer_class = SubtaskSerializer
 
 
+class SubTasksList(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = SubtaskSerializer
+
+
 class SubtaskListForTaskAPIView(ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = SubtaskSerializer
