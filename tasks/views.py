@@ -15,6 +15,9 @@ class SubTasksList(ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = SubtaskSerializer
 
+    def get_queryset(self):
+        return Subtask.objects.all()
+
 
 class SubtaskListForTaskAPIView(ListAPIView):
     permission_classes = [IsAuthenticated]
