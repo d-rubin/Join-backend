@@ -45,7 +45,7 @@ class Task(Model):
 class Subtask(Model):
     label = CharField(max_length=50)
     is_done = BooleanField(default=False)
-    task = ForeignKey(Task, on_delete=CASCADE)
+    task = ForeignKey(Task, on_delete=CASCADE, null=True)
 
     def __str__(self):
         return self.label

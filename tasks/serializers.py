@@ -6,12 +6,10 @@ from .models import Task, Subtask
 class SubtaskSerializer(ModelSerializer):
     class Meta:
         model = Subtask
-        fields = ['id', 'label', 'is_done']
+        fields = ['label', 'is_done', 'task', 'id']
 
 
 class TaskSerializer(ModelSerializer):
-    subtasks = SubtaskSerializer(many=True, read_only=True)
-
     class Meta:
         model = Task
-        fields = ['id', 'title', 'description', 'due_date', 'category', 'priority', 'status', 'assignee', 'subtasks']
+        fields = ['id', 'title', 'description', 'due_date', 'category', 'priority', 'status', 'assignee']
