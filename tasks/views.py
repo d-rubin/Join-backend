@@ -27,6 +27,12 @@ class SubtaskListForTaskAPIView(ListAPIView):
         return Subtask.objects.filter(task_id=self.kwargs['task_id'])
 
 
+class SubtaskRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = Task.objects.all()
+    lookup_field = "id"
+    serializer_class = SubtaskSerializer
+
+
 class TaskListCreateView(ListCreateAPIView):
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
@@ -34,14 +40,9 @@ class TaskListCreateView(ListCreateAPIView):
     def get_queryset(self):
         return Task.objects.filter(assignee=self.request.user)
 
-    def post(self, request, *args, **kwargs):
-        self.create(request, *args, **kwargs)
-        subtasks = request.data["subtasks"]
-        if subtasks:
-            for subtask in subtasks:
-                Subtask.create(task=subtask.task, label=subtask.label, is_done=subtask.is_done);
-
 
 class TaskRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
-    serializer_class = SubtaskSerializer
+    lookup_url_kwarg = "task_id"
+    lookup_field = "id"
+    serializer_class = TaskSerializer
