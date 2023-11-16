@@ -44,6 +44,6 @@ class TaskListCreateView(ListCreateAPIView):
 
 class TaskRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
-    lookup_url_kwarg = "task_id"
+    lookup_url_kwarg = "subTask_id"
     lookup_field = "id"
     serializer_class = TaskSerializer
