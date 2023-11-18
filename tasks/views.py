@@ -28,7 +28,9 @@ class SubtaskListForTaskAPIView(ListAPIView):
 
 
 class SubtaskRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
-    queryset = Task.objects.all()
+    permission_classes = [IsAuthenticated]
+    queryset = Subtask.objects.all()
+    lookup_url_kwarg = "subtask_id"
     lookup_field = "id"
     serializer_class = SubtaskSerializer
 
@@ -42,6 +44,7 @@ class TaskListCreateView(ListCreateAPIView):
 
 
 class TaskRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Task.objects.all()
     lookup_url_kwarg = "task_id"
     lookup_field = "id"
