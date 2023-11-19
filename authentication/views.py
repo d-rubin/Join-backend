@@ -1,5 +1,6 @@
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -71,13 +72,13 @@ class RegisterView(APIView):
             # Senden der Bestätigungs E-Mail
             send_mail(
                 'Registration',
-                'You have successfully registered to join, Congratulations',
+                'You have registered to join',
                 'contact@daniel-rubin.de',
                 [email],
                 fail_silently=True,
                 auth_user='m06624d4',
-                auth_password='3Y9kJcKSxBPgZp9ZT6aY'
-            )
+                auth_password='3Y9kJcKSxBPgZp9ZT6aY',
+                html_message=render_to_string('registration.html', {'name': name})),
 
             return Response(response_data, status=status.HTTP_201_CREATED)
         else:
