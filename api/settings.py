@@ -1,3 +1,6 @@
+from celery import Celery
+from celery.schedules import crontab
+
 """
 Django settings for api project.
 
@@ -48,6 +51,7 @@ INSTALLED_APPS = [
     "api",
     "authentication",
     "users",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -146,3 +150,28 @@ EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'django-cache'
+
+# Celery configuration
+app = Celery('join-backend',
+             broker='amqp://',
+             backend='rpc://',
+             include=['join-backend.tasks'])
+app.config_from_object('django.conf:settings', namespace='CELERY')
+
+# Load task modules from all registered Django app configs.
+app.autodiscover_tasks()
+
+CELERY_BEAT_SCHEDULE = {
+    'check-due-dates': {
+        'task': 'join-backend/tasks/check-date.py',
+        'schedule': crontab(hour="0", minute="0"),  # Daily um 8:00
+    },
+}
+if __name__ == '__main__':
+    app.start()
+
+
