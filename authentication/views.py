@@ -1,6 +1,9 @@
+import os
+
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from dotenv import load_dotenv
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -17,7 +20,7 @@ class LoginView(ObtainAuthToken):
                                            context={"request": request})
         try:
             serializer.is_valid(raise_exception=True)
-        except:
+        except Exception:
             return Response({"status": 401}, status=status.HTTP_401_UNAUTHORIZED)
 
         user = serializer.validated_data["user"]
@@ -39,6 +42,8 @@ class LoginView(ObtainAuthToken):
 class RegisterView(APIView):
     @staticmethod
     def post(request):
+        load_dotenv()
+
         email = request.data.get("email")
         name = request.data.get("name")
         password = request.data.get("password")
@@ -62,7 +67,6 @@ class RegisterView(APIView):
 
             # Token für den neu erstellten Benutzer generieren
             token, created = Token.objects.get_or_create(user=user)
-
             # Erstellen der Response mit dem Token
             response_data = {
                 "token": token.key,
@@ -75,9 +79,9 @@ class RegisterView(APIView):
                 'You have registered to join',
                 'contact@daniel-rubin.de',
                 [email],
-                fail_silently=True,
-                auth_user='m06624d4',
-                auth_password='3Y9kJcKSxBPgZp9ZT6aY',
+                fail_silently=False,
+                auth_user=os.environ.get('EMAIL_HOST_USER', ""),
+                auth_password=os.environ.get("EMAIL_HOST_PASSWORD", ""),
                 html_message=render_to_string('registration.html', {'name': name})),
 
             return Response(response_data, status=status.HTTP_201_CREATED)

@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db.models import Model, CharField, TextField, DateField, IntegerField, ForeignKey, CASCADE, TextChoices, \
@@ -28,7 +30,7 @@ class StatusChoices(TextChoices):
 class Task(Model):
     title = CharField(max_length=30)
     description = TextField(max_length=100)
-    due_date = DateField(default=timezone.now)
+    due_date = DateField(default=datetime.date.today())
     category = CharField(max_length=20, choices=CategoryChoices.choices, default=CategoryChoices.DESIGN)
     priority = CharField(max_length=20, choices=PriorityChoices.choices, default=PriorityChoices.LOW)
     status = CharField(max_length=20, choices=StatusChoices.choices, default=StatusChoices.TO_DO)
