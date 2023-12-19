@@ -146,8 +146,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'w01d8ab4.kasserver.com'
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
 
 
 CELERY_BROKER_URL = "redis://localhost:6379"
