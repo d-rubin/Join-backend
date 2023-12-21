@@ -3,6 +3,8 @@ asgiref==3.7.2
 billiard==4.2.0
 celery==5.3.6
 click==8.1.7
+click_didyoumean==0.3.0
+click_plugins==1.1.1
 colorama==0.4.6
 Django==5.0
 django-celery-results==2.5.1

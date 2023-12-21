@@ -6,9 +6,11 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from dotenv import load_dotenv
 
+from api.celery import app
 from tasks.models import Task
 
 
+@app.task
 def send_task_reminder():
     load_dotenv()
     today = datetime.date.today()
