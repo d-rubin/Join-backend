@@ -1,20 +1,22 @@
-import datetime
+from __future__ import absolute_import, unicode_literals
 import os
 
+from celery import shared_task
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.utils import timezone
 from dotenv import load_dotenv
 
-from api.celery import app
 from tasks.models import Task
 
 
-@app.task
+@shared_task
 def send_task_reminder():
     load_dotenv()
-    today = datetime.date.today()
+    today = timezone.now()
     tasks = Task.objects.filter(due_date__lte=today)
+    print("Triggered")
 
     for task in tasks:
         user = User.objects.filter(username=task.assignee)

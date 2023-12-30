@@ -178,18 +178,21 @@ RQ_QUEUES = {
         'HOST': 'localhost',
         'PORT': 6379,
         'DB': 0,
-        'PASSWORD': 'foobared',
+        # 'PASSWORD': 'foobared',
         'DEFAULT_TIMEOUT': 360,
     },
     'high': {
         'HOST': 'localhost',
         'PORT': 6379,
-        'DEFAULT_TIMEOUT': 500,
         'DB': 0,
+        # 'PASSWORD': 'foobared',
+        'DEFAULT_TIMEOUT': 360,
     },
     'low': {
         'HOST': 'localhost',
         'PORT': 6379,
         'DB': 0,
-    }
+        # 'PASSWORD': 'foobared',
+        'DEFAULT_TIMEOUT': 360,
+    },
 }
