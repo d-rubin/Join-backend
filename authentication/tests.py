@@ -1,4 +1,3 @@
-from django.core import mail
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 
@@ -74,18 +73,3 @@ class RegisterViewTest(APITestCase):
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, 401)
-
-
-# class ResetPasswordViewTest(APITestCase):
-#     def setUp(self):
-#         self.email = 'test@example.com'
-#         self.user = User.objects.create_user(username='testuser', email=self.email, password='testpassword')
-#
-#     def test_reset_password_email_sent(self):
-#         url = '/auth/reset-password/'
-#         data = {
-#             'email': self.email
-#         }
-#         with self.assertLogs('django.core.mail', level='INFO') as mail_logs:
-#             response = self.client.post(url, data, format='json')
-#         self.assertEqual(response.status_code, 200)

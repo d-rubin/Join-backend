@@ -1,0 +1,4 @@
+# dependencies
+*.env*
+env*
+db.sqlite3
