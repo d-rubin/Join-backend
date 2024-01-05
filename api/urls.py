@@ -21,4 +21,5 @@ urlpatterns = [
     path('tasks/', include('tasks.urls')),
     path("auth/", include("authentication.urls")),
     path("contacts/", include("users.urls")),
+    path('django-rq/', include('django_rq.urls'))
 ]
