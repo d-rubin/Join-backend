@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+from celery.schedules import crontab
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,7 +31,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["https://join.daniel-rubin.de", "https://join-d-rubin.vercel.app", "localhost", '127.0.0.1', "wrench3826.pythonanywhere.com"]
 
 CORS_ALLOWED_ORIGINS = [
-"https://join.daniel-rubin.de",
+    "https://join.daniel-rubin.de",
     'http://localhost:3000',
     "https://join-d-rubin.vercel.app",
 ]
@@ -48,11 +49,11 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "tasks",
     "api",
+    # "celery",
     "authentication",
     "users",
-    'django_celery_results',
-    "django_rq",
-    # "django_nose",
+    "django_celery_results",
+    # "django_rq",
 ]
 
 MIDDLEWARE = [
@@ -145,18 +146,28 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get('EMAIL_HOST')
-EMAIL_PORT = 25
-EMAIL_USE_TLS = True
+RESEND_SMTP_PORT = 587
+RESEND_SMTP_USERNAME = 'resend'
+RESEND_SMTP_HOST = 'smtp.resend.com'
+
 
 # Celery Configuration Options
-CELERY_TIMEZONE = "Europe/Berlin"
-CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = "redis://localhost:6379"
-# CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/Berlin'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'django-cache'
+CELERY_BEAT_SCHEDULE = {  # scheduler configuration
+    'Send_mail_schedule': {  # whatever the name you want
+        'task': 'tasks.tasks.send_task_reminder',  # name of task with path
+        'schedule': crontab(),  # crontab() runs the tasks every minute
+    },
+}
 
 CACHES = {
     # Celery Cache

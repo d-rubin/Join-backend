@@ -1,15 +1,16 @@
 import os
 
 from django.contrib.auth.hashers import make_password
-from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from dotenv import load_dotenv
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
-from django.contrib.auth.models import User
 from rest_framework.views import APIView
+from django.contrib.auth.models import User
+from django.conf import settings
+from django.core.mail import EmailMessage, get_connection
 
 
 # Create your views here.
@@ -73,16 +74,21 @@ class RegisterView(APIView):
                 "status": 201,
             }
 
-            # Senden der Bestätigungs E-Mail
-            send_mail(
-                'Registration',
-                'You have registered to join',
-                'contact@daniel-rubin.de',
-                [email],
-                fail_silently=False,
-                auth_user=os.environ.get('EMAIL_HOST_USER', ""),
-                auth_password=os.environ.get("EMAIL_HOST_PASSWORD", ""),
-                html_message=render_to_string('registration.html', {'name': name})),
+            template = render_to_string('registration.html', {'name': name})
+
+            with get_connection(
+                    host=settings.RESEND_SMTP_HOST,
+                    port=settings.RESEND_SMTP_PORT,
+                    username=settings.RESEND_SMTP_USERNAME,
+                    password=os.environ["RESEND_API_KEY"],
+                    use_tls=True,
+            ) as connection:
+                r = EmailMessage(
+                    subject="Registration",
+                    body=template,
+                    to=[email],
+                    from_email="join@daniel-rubin.de",
+                    connection=connection).send()
 
             return Response(response_data, status=status.HTTP_201_CREATED)
         else:
