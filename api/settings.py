@@ -165,7 +165,7 @@ CELERY_CACHE_BACKEND = 'django-cache'
 CELERY_BEAT_SCHEDULE = {  # scheduler configuration
     'Send_mail_schedule': {  # whatever the name you want
         'task': 'tasks.tasks.send_task_reminder',  # name of task with path
-        'schedule': crontab(),  # crontab() runs the tasks every minute
+        'schedule': crontab(hour="6"),  # crontab() runs the tasks every minute
     },
 }
 
