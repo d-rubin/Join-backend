@@ -49,11 +49,10 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "tasks",
     "api",
-    # "celery",
     "authentication",
     "users",
     "django_celery_results",
-    # "django_rq",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -146,8 +145,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
+EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+EMAIL_HOST = "w01d8ab4.kasserver.com"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 RESEND_SMTP_PORT = 587
 RESEND_SMTP_USERNAME = 'resend'
@@ -165,7 +165,7 @@ CELERY_CACHE_BACKEND = 'django-cache'
 CELERY_BEAT_SCHEDULE = {  # scheduler configuration
     'Send_mail_schedule': {  # whatever the name you want
         'task': 'tasks.tasks.send_task_reminder',  # name of task with path
-        'schedule': crontab(hour="6"),  # crontab() runs the tasks every minute
+        'schedule': crontab(),  # crontab() runs the tasks every minute
     },
 }
 
@@ -210,8 +210,6 @@ RQ_QUEUES = {
 }
 
 # TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-
-# Tell nose to measure coverage on the 'foo' and 'bar' apps
 # NOSE_ARGS = [
     # '--with-coverage',
     # '--cover-package=authentication',
