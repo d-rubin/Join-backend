@@ -23,10 +23,10 @@ load_dotenv()
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-dsieneuo$k7a#uwwpe))ja_%3t6x7ihfi5y_iv&%x41%8b$&uj'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["https://join.daniel-rubin.de", "https://join-d-rubin.vercel.app", "localhost", '127.0.0.1', "wrench3826.pythonanywhere.com"]
 
@@ -147,38 +147,32 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
-EMAIL_HOST = "w01d8ab4.kasserver.com"
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-RESEND_SMTP_PORT = 587
-RESEND_SMTP_USERNAME = 'resend'
-RESEND_SMTP_HOST = 'smtp.resend.com'
 
 
 # Celery Configuration Options
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_BROKER_URL = os.environ.get("REDIS_URL")
+CELERY_BROKER_PASSWORD = os.environ.get("REDIS_PW")
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Berlin'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_CACHE_BACKEND = 'django-cache'
-CELERY_BEAT_SCHEDULE = {  # scheduler configuration
-    'Send_mail_schedule': {  # whatever the name you want
-        'task': 'tasks.tasks.send_task_reminder',  # name of task with path
-        'schedule': crontab(),  # crontab() runs the tasks every minute
+CELERY_BEAT_SCHEDULE = {
+    'Send_mail_schedule': {
+        'task': 'tasks.tasks.send_task_reminder',
+        'schedule': crontab(minute="0", hour="7"),  # crontab() runs the tasks every minute
     },
 }
 
 CACHES = {
-    # Celery Cache
-    # 'default': {
-    #     'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-    #     'LOCATION': 'my_cache_table',
-    # }
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": f"{os.environ.get('REDIS_URL')}/1",
         "OPTIONS": {
+            "PASSWORD": os.environ.get("REDIS_PW"),
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },
         "KEY_PREFIX": "join-backend"
@@ -190,27 +184,18 @@ RQ_QUEUES = {
         'HOST': 'localhost',
         'PORT': 6379,
         'DB': 0,
-        # 'PASSWORD': 'foobared',
         'DEFAULT_TIMEOUT': 360,
     },
     'high': {
         'HOST': 'localhost',
         'PORT': 6379,
         'DB': 0,
-        # 'PASSWORD': 'foobared',
         'DEFAULT_TIMEOUT': 360,
     },
     'low': {
         'HOST': 'localhost',
         'PORT': 6379,
         'DB': 0,
-        # 'PASSWORD': 'foobared',
         'DEFAULT_TIMEOUT': 360,
     },
 }
-
-# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-# NOSE_ARGS = [
-    # '--with-coverage',
-    # '--cover-package=authentication',
-# ]
