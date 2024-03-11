@@ -8,7 +8,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea/copilot/chatSessions" />
       <excludeFolder url="file://$MODULE_DIR$/environ" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.9 (Join-backend)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.12 (join-backend)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
