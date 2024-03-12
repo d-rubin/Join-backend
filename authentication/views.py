@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from django.template.loader import render_to_string
 from dotenv import load_dotenv
 from rest_framework import status
@@ -47,17 +48,13 @@ class RegisterView(APIView):
             if User.objects.filter(username=name).exists():
                 return Response({"message": "Name already in use", "status": 401}, status=status.HTTP_401_UNAUTHORIZED)
 
-            # user = User.objects.create(
-            #     email=email,
-            #     username=name,
-            #     password=make_password(password)  # Passwort hashen
-            # )
-            # user.save()
+            user = User.objects.create(email, name, make_password(password))
+            user.save()
 
-            # token, created = Token.objects.get_or_create(user=user)
+            token = Token.objects.get_or_create(user=user)
 
             response_data = {
-                # "token": token.key,
+                "token": token.key,
                 "status": 201,
             }
 
