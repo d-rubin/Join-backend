@@ -1,0 +1,21 @@
+version: '1'
+
+services:
+  web:
+    build: .
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    container_name: join-backend
+    environment:
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - RESEND_SMTP_USERNAME=${RESEND_SMTP_USERNAME}
+      - RESEND_SMTP_HOST=${RESEND_SMTP_HOST}
+      - REDIS_URL=${REDIS_URL}
+      - REDIS_PW=${REDIS_PW}
+      - SECRET_KEY=${SECRET_KEY}
+    volumes:
+      - .:/join-backend
+    ports:
+      - "8000:8000"
