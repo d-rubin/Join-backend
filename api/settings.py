@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://join.daniel-rubin.de", "https://join-d-rubin.vercel.app", "localhost", '127.0.0.1']
+ALLOWED_HOSTS = ["https://join.daniel-rubin.de", "https://join-d-rubin.vercel.app", "206.189.49.23"]
 
 CORS_ALLOWED_ORIGINS = [
     "https://join.daniel-rubin.de",
@@ -152,8 +152,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 # Celery Configuration Options
-CELERY_BROKER_URL = os.environ.get("REDIS_URL")
-CELERY_BROKER_PASSWORD = os.environ.get("REDIS_PW")
+CELERY_BROKER_URL = "redis://redis:6379/0"
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
@@ -170,9 +169,8 @@ CELERY_BEAT_SCHEDULE = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"{os.environ.get('REDIS_URL')}/1",
+        "LOCATION": "redis://redis:6379/1",
         "OPTIONS": {
-            "PASSWORD": os.environ.get("REDIS_PW"),
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },
         "KEY_PREFIX": "join-backend"
