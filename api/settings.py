@@ -32,7 +32,6 @@ ALLOWED_HOSTS = ["https://join.daniel-rubin.de", "https://join-d-rubin.vercel.ap
 
 CORS_ALLOWED_ORIGINS = [
     "https://join.daniel-rubin.de",
-    'http://localhost:3000',
     "https://join-d-rubin.vercel.app",
 ]
 # Application definition
