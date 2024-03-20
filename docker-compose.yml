@@ -29,17 +29,19 @@ services:
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
-    image: celery-worker
+    image: join-backend-celery-worker
     command: /start-celeryworker
     volumes:
       - .:/app
+    depends_on: [redis]
 
   celery_beat:
     restart: unless-stopped
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
-    image: celery-beat
+    image: join-backend-celery-beat
     command: /start-celerybeat
     volumes:
       - .:/app
+    depends_on: [redis]
