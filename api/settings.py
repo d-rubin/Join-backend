@@ -26,9 +26,9 @@ load_dotenv()
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["https://join.daniel-rubin.de", "https://join-d-rubin.vercel.app", "2a01:4f8:c0c:4fe2::/64"]
+ALLOWED_HOSTS = ["https://join.daniel-rubin.de", "https://join-d-rubin.vercel.app", "94.130.25.91"]
 
 CORS_ALLOWED_ORIGINS = [
     "https://join.daniel-rubin.de",
