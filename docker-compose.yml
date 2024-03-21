@@ -33,6 +33,8 @@ services:
     command: /start-celeryworker
     volumes:
       - .:/app
+    env_file:
+      - .env
     depends_on: [redis]
 
   celery_beat:
@@ -42,6 +44,8 @@ services:
       dockerfile: ./compose/local/django/Dockerfile
     image: join-backend-celery-beat
     command: /start-celerybeat
+    env_file:
+      - .env
     volumes:
       - .:/app
     depends_on: [redis]
