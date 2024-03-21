@@ -158,10 +158,11 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Berlin'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_CACHE_BACKEND = 'django-cache'
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BEAT_SCHEDULE = {
     'Send_mail_schedule': {
         'task': 'tasks.tasks.send_task_reminder',
-        'schedule': crontab(minute="0", hour="7"),  # crontab() runs the tasks every minute
+        'schedule': crontab(minute="*/10"),  # crontab() runs the tasks every minute
     },
 }
 
