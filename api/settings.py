@@ -150,7 +150,7 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
+EMAIL_PORT = 587
 
 # Celery Configuration Options
 CELERY_BROKER_URL = "redis://redis:6379/0"
@@ -164,7 +164,7 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BEAT_SCHEDULE = {
     'Send_mail_schedule': {
         'task': 'tasks.tasks.send_task_reminder',
-        'schedule': crontab(minute="*/10"),  # crontab() runs the tasks every minute
+        'schedule': crontab(minute="0", hour="10"),
     },
 }
 
