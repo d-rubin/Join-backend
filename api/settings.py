@@ -151,6 +151,7 @@ EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 # Celery Configuration Options
 CELERY_BROKER_URL = "redis://redis:6379/0"
