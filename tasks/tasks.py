@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 @app.task
 def send_task_reminder():
     today = timezone.now()
-    tasks = Task.objects.filter(due_date__lte=today, status=not StatusChoices.DONE)
+    tasks = Task.objects.filter(due_date__lte=today).exclude(status=StatusChoices.DONE)
     for task in tasks:
         user = User.objects.get(username=task.assignee)
         send_mail(
