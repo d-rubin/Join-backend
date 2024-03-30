@@ -165,7 +165,8 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BEAT_SCHEDULE = {
     'Send_mail_schedule': {
         'task': 'tasks.tasks.send_task_reminder',
-        'schedule': crontab(minute="0", hour="6"),
+        # 'schedule': crontab(minute="0", hour="6"),
+        'schedule': crontab(),
     },
 }
 
