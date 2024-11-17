@@ -48,10 +48,10 @@ class RegisterView(APIView):
             if User.objects.filter(username=name).exists():
                 return Response({"message": "Name already in use", "status": 401}, status=status.HTTP_401_UNAUTHORIZED)
 
-            user = User.objects.create(email, name, make_password(password))
+            user = User.objects.create(email=email, username=name, password=make_password(password))
             user.save()
 
-            token = Token.objects.get_or_create(user=user)
+            token, created = Token.objects.get_or_create(user=user)
 
             response_data = {
                 "token": token.key,
