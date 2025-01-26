@@ -28,15 +28,20 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", False)
 
-ALLOWED_HOSTS = ["https://join.daniel-rubin.de", "https://join-d-rubin.vercel.app", "94.130.25.91", "0.0.0.0",
-                 "localhost", "127.0.0.1"
-                 ]
+ALLOWED_HOSTS = [
+    "join-api.daniel-rubin.de",
+]
 
 CORS_ALLOWED_ORIGINS = [
     "https://join.daniel-rubin.de",
     "https://join-d-rubin.vercel.app",
-    "https://94.130.25.91",
-    "http://localhost:3000",
+    "https://join-api.daniel-rubin.de",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://join-api.daniel-rubin.de",
+    "https://join.daniel-rubin.de",
+    "https://join-d-rubin.vercel.app",
 ]
 # Application definition
 

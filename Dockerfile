@@ -1,25 +1,30 @@
-FROM --platform=linux/amd64 python:3.10-alpine
-
-ENV PYTHONUNBUFFERED 1
-ENV PYTHONDONTWRITEBYTECODE 1
-
-RUN apk update \
-    && apk add --no-cache build-base \
-    && apk add --no-cache postgresql-dev \
-    && apk add --no-cache py3-dotenv \
-    && apk add --no-cache gettext
+# Build Stage
+FROM --platform=linux/amd64 python:3.10-alpine AS builder
 
 WORKDIR /app
 
-COPY ./requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Installiere Build-Abhängigkeiten und Python-Pakete
+RUN apk add --no-cache gcc musl-dev libffi-dev
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+# Production Stage
+FROM --platform=linux/amd64 python:3.10-alpine
+
+WORKDIR /app
+
+# Nur die minimalen Runtimedateien kopieren
+COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=builder /usr/local/bin/python3 /usr/local/bin/python3
+COPY --from=builder /usr/local/bin/gunicorn /usr/local/bin/gunicorn
+
+ENV PATH="/root/.local/bin:$PATH"
 
 COPY . .
 
 EXPOSE 8000
 
-CMD python ./manage.py collectstatic --noinput
-CMD python3 ./manage.py makemigrations
-CMD python3 ./manage.py migrate
-
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "api.wsgi"]
+ENTRYPOINT ["gunicorn"]
+CMD ["--bind", "0.0.0.0:8000", "api.wsgi"]
